@@ -1,0 +1,19 @@
+.admin-table-container {
+  margin-top: 20px;
+}
+
+.table {
+  text-align: center;
+}
+
+.img-thumbnail {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Table.css */
+.blocked-user {
+  background-color: #888888;
+  color: #727272;
+  opacity: 0.3;
+}

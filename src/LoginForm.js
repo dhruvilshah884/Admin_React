@@ -8,6 +8,7 @@ function LoginForm() {
     email: "",
     password: "",
   });
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,22 +23,24 @@ function LoginForm() {
     e.preventDefault();
     axios.post("http://localhost:5000/login", data, { withCredentials: true })
       .then((response) => {
-        console.log('login successfully', response);
+        console.log('Login successfully', response);
         const user = response.data.user;
         if (user.role === "admin") {
-          navigate('/admin');
+          navigate('/admin');  
         } else {
           navigate('/user');
         }
       })
       .catch((error) => {
-        console.error("There was an error sending the data!", error);
+        console.error("There was an error logging in!", error);
+        setError('Invalid email or password');
       });
   };
 
   return (
     <div className="signup-form">
       <h1>Login Form</h1>
+      {error && <p className="error">{error}</p>}
       <form onSubmit={handleSubmit}>
         <input
           type="email"

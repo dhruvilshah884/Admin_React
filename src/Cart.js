@@ -50,19 +50,29 @@ function Cart({ userEmail, userId }) { // Add userId prop
   };
 
   const handleDecrement = async (productId) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/decrement",
-        { productId },
-        { withCredentials: true }
-      );
-      if (response.data.message === "quantity decremented successfully") {
-        updateCartData(productId, -1);
+    // Find the current product in the cart
+    const product = data.find(item => item.product._id === productId);
+  
+    // Check if the quantity is greater than 1 before decrementing
+    if (product && product.quantity > 1) {
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/decrement",
+          { productId },
+          { withCredentials: true }
+        );
+  
+        if (response.data.message === "quantity decremented successfully") {
+          updateCartData(productId, -1);
+        }
+      } catch (error) {
+        console.error("Error decrementing product:", error);
       }
-    } catch (error) {
-      console.error("Error decrementing product:", error);
+    } else {
+      console.log("Quantity cannot be less than 1");
     }
   };
+  
 
   const updateCartData = (productId, changeAmount) => {
     const updatedData = data.map((item) => {
@@ -147,6 +157,7 @@ function Cart({ userEmail, userId }) { // Add userId prop
               <button onClick={() => handleRemove(item.product._id)}>Remove</button>
             </div>
           </div>
+     
         ))}
       </div>
       <h1>Total: ₹{total}</h1>

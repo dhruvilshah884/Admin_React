@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./SignupForm.css";
 import axios from "axios";
-
+import {useNavigate} from 'react-router-dom'
 function AdminForm() {
+  const navigate = useNavigate()
   const [data, setData] = useState({
     product_name: "",
     product_price: "",
@@ -33,7 +34,7 @@ function AdminForm() {
 
     axios.post("http://localhost:5000/add", formData)
       .then(() => {
-        console.log('admin data added');
+        navigate('/table')
       })
       .catch((error) => {
         console.error("There was an error sending the data!", error);
